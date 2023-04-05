@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
+:root {
+    --main-color:#5372F0;
+    --black-color:#171313;
+}
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+text-decoration: none;
+}
+    body {
+        background: #f6f6f6;
+        min-height: 100vh;
+        overflow: hidden;
+    }
+    .container {
+        width: 700px;
+        min-height: 500px;
+        background: #FFF;
+        box-shadow:0 0 6px rgba(0,0,0,.1);
+        margin: 4em auto;
+        padding: 20px;
+        border: 1px solid var(--main-color);
+    }
+    .container .one {
+        display: flex;
+        background: #f1f1f1;
+        width: 100%;
+        padding: 5px;
+        position: relative;
+        border: 1px solid var(--main-color);
+    }
+    .one select {
+        background: #FFFFFF;
+        padding: 6px 10px;
+        border: 0px solid transparent;
+  
+    }
+    select:focus {
+        outline: 2px solid var(--main-color);
+        border: 0;
+    }
+    .bold {
+        padding: 5px 10px;
+        background: #FFFFFF;
+        font-weight: 800;
+        margin: 0 10px;
+        cursor: pointer;
+     }
+     .salp {
+        padding: 0px 10px;
+        font-size: 22px;
+        background: #FFFFFF;
+        cursor: pointer;
+     }
+     .num {
+        padding: 0px 10px;
+        font-size: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #FFFFFF;
+        cursor: pointer;
+        margin: 0 10px;
+     }
+     .plus {
+        padding: 0px 10px;
+        font-size: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #FFFFFF;
+        cursor: pointer;
+     }
+     .colors {
+        padding: 0px 10px;
+        font-size: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #FFFFFF;
+        cursor: pointer;
+        margin: 0 10px;
+     }
+     .two {
+        margin-top: 25px;
+        background: #f1f1f1;
+        padding: 12px;
+        border: 1px solid var(--main-color);
+     }
+     .bolder {
+        font-weight: bolder;
+        
+     }
+     .bg {
+        background: var(--main-color);
+        color: white;
+     }
+</style>
+<body>
+    <div class="container">
+        <div class="one">
+            <select class="fonts">
+                <option value="">Select Font</option>
+                <option value="system-ui">System-ui</option>
+                <option value="sans-serif">Sans-serif</option>
+                <option value="Poppins">Poppins</option>
+            </select>
+            <span class="bold">B</span>
+            <span class="salp">-</span>
+            <span class="num">15</span>
+            <span class="plus">+</span>
+            <label class="colors" for="co">Invert Colors</label>
+            <input type="color" style="opacity:0;visibility:hidden;position: absolute;
+            left: 55%;
+            top: 28%;" id="co">
+        </div>
+        <div class="two">
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum quasi voluptates, quisquam voluptatum ad aliquam quam assumenda distinctio sapiente vitae ut itaque dolorem sequi? Possimus enim unde ipsa, pariatur dolor ipsam corrupti impedit delectus repudiandae nam voluptatum distinctio fugit veritatis. Incidunt deleniti amet dolor dignissimos, exercitationem ipsum magnam impedit consequatur hic omnis sapiente accusantium voluptatibus rerum quis, eligendi animi! Aperiam sequi laboriosam facilis tempora maxime iste pariatur praesentium ea ullam unde similique architecto a, consequuntur voluptatibus officiis distinctio voluptas magnam, voluptates recusandae? Magni tenetur quibusdam assumenda incidunt deleniti ut commodi possimus suscipit, veniam esse earum a officiis doloremque quam quidem.</p>
+        </div>
+    </div>
+    <progress></progress>   
+  <script>
+    let elements = document.querySelectorAll(".one span");
+    let sub = document.querySelector(".two p");
+    let bol = document.querySelector(".bold");
+    let numbs = document.querySelectorAll(".num");
+    let numa = parseInt(numbs[0].innerHTML);
+    let selects = document.querySelectorAll('.fonts')
+    
+    // تحميل قيمة اللون ونوع الخط المحفوظة في التخزين المحلي وتعيينها على النص
+
+    elements.forEach(element => {
+        element.addEventListener('click', () => {
+            if (element.classList.contains("bold")) {
+                sub.classList.toggle("bolder");
+                bol.classList.toggle("bg");
+                
+            }  else if (element.classList.contains("plus")){
+                numa = Math.min(numa + 1, 25);
+            }else if (element.classList.contains("salp")){
+                numa = Math.max(numa - 1, 10);
+            }
+            numbs.forEach(num => {
+                num.innerHTML = numa;
+            });
+            sub.style.fontSize = `${numa}px`;
+            localStorage.setItem("num",numa)
+            localStorage.setItem("numw",num)
+        });
+    });
+    
+    selects.forEach(option =>{
+        option.addEventListener("click",()=>{
+           document.body.style.fontFamily =  `${option.value}`
+           localStorage.setItem("option",option.value)
+        })
+    })
+    
+    var colors = document.getElementById("co");
+    colors.addEventListener("change",()=>{
+        sub.style.color = colors.value
+        localStorage.setItem("color",colors.value)
+    })
+    window.onload = () => {
+        const savedColor = localStorage.getItem("color");
+        if (savedColor) {
+          sub.style.color = savedColor;
+        }
+        const savedNum = localStorage.getItem("num");
+        if (savedNum) {
+            numa = parseInt(savedNum);
+            numbs.forEach(num => {
+                num.innerHTML = numa;
+            });
+            sub.style.fontSize = `${numa}px`;
+        }
+  
+        const savedOption = localStorage.getItem("option");
+            if (savedOption) {
+              const select = document.querySelector('.fonts');
+              select.value = savedOption;
+              document.body.style.fontFamily = savedOption;
+            }
+          
+    }
+
+  </script>
+</body>
+</html>
